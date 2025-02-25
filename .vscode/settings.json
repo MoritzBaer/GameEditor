@@ -1,0 +1,24 @@
+{
+    "cmake.configureSettings": {
+        "CMAKE_BUILD_TYPE": "${buildType}",
+        "symbolSearchPath": "C:/VulkanSDK-Debug/*/Bin"
+    },
+    "[c]": {
+        "editor.wordBasedSuggestions": "off",
+        "editor.suggest.insertMode": "replace",
+        "editor.semanticHighlighting.enabled": true,
+        "editor.defaultFormatter": "ms-vscode.cpptools"
+    },
+    "editor.formatOnSave": true,
+    "json.format.keepLines": true,
+    "files.associations": {
+        "*.sc": "latex",
+        "*.pfb": "json",
+        "*.mat": "json",
+        "*.cei": "json",
+        "*.cef": "json",
+        "*.scn": "json",
+        "xtr1common": "cpp",
+        "chrono": "cpp"
+    }
+}

@@ -1,0 +1,3 @@
+[submodule "src/GraphicsEngine"]
+	path = dependencies/GraphicsEngine
+	url = https://github.com/MoritzBaer/GraphicsEngine

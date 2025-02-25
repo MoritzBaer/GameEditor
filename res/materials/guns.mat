@@ -1,0 +1,11 @@
+{
+    "pipelineName": "dummy",
+    "instanceData": {
+        "Engine::AlbedoAndBumpData": {
+            "albedoTexture": "guns_t.png",
+            "bumpTexture": "guns_n.png",
+            "specularStrength": 0.6,
+            "phongExponent": 512
+        }
+    }
+}

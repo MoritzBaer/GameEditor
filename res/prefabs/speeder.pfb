@@ -1,0 +1,70 @@
+{
+    "components": [
+        {
+            "Engine::TransformDSO": {
+                "position": { "data": [ 0, 0, 0 ] },
+                "rotation": { "w": 1, "x": 0, "y": 0, "z": 0 },
+                "scale": { "data": [ 1, 1, 1 ] }
+            }
+        },
+        {
+            "Engine::HierarchyDSO": {
+                "children": [
+                    { "Engine::AssetManager::AssetDSO<Engine::Core::Entity>":
+                        {
+                            "components": [
+                                {
+                                    "Engine::TransformDSO": {
+                                        "position": { "data": [ 0, 0, 0 ] },
+                                        "rotation": { "w": 1, "x": 0, "y": 0, "z": 0 },
+                                        "scale": { "data": [ 1, 1, 1 ] }
+                                    }
+                                },
+                                {
+                                    "Engine::MeshRendererDSO": {
+                                        "meshName": "speeder",
+                                        "materialName": "speeder"
+                                    }
+                                },
+                                {
+                                    "Editor::DisplayDSO": {
+                                        "label": "speeder_body"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    { "Engine::AssetManager::AssetDSO<Engine::Core::Entity>":
+                        {
+                            "components": [
+                                {
+                                    "Engine::TransformDSO": {
+                                        "position": { "data": [ 0, 0, 0 ] },
+                                        "rotation": { "w": 1, "x": 0, "y": 0, "z": 0 },
+                                        "scale": { "data": [ 1, 1, 1 ] }
+                                    }
+                                },
+                                {
+                                    "Engine::MeshRendererDSO": {
+                                        "meshName": "guns",
+                                        "materialName": "guns"
+                                    }
+                                },
+                                {
+                                    "Editor::DisplayDSO": {
+                                        "label": "speeder_guns"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "Editor::DisplayDSO": {
+                "label": "speeder"
+            }
+        }
+    ]
+}
