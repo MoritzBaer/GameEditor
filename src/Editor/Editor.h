@@ -1,9 +1,12 @@
 #pragma once
 
 #include "Core/ECS.h"
-#include "Editor/Display.h"
-#include "Editor/EditorGUIRenderingStrategy.h"
-#include "Editor/ImGUIManager.h"
+#include "Components/Display.h"
+#include "Components/Transform.h"
+#include "Components/MeshRenderer.h"
+#include "Components/Camera.h"
+#include "EditorGUIRenderingStrategy.h"
+#include "ImGUIManager.h"
 #include "EntityDetails.h"
 #include "Game.h"
 #include "Graphics/RenderingStrategies/ComputeBackground.h"
@@ -11,6 +14,7 @@
 #include "RenderView.h"
 #include "SceneView.h"
 #include "WindowedApplication.h"
+#include "Components/EditorComponent.h"
 
 namespace Editor {
   struct GameControl : public Engine::Graphics::ImGUIView {
@@ -84,8 +88,11 @@ namespace Editor {
       imGuiManager->RegisterView(&gameView);
       imGuiManager->RegisterView(&viewport);
 
-      Core::ECS::RegisterComponent<Display>();  // Should be registered first so it appears at the top of the details page
+      Core::ECS::RegisterComponent<Display>();    // Should be registered first so it appears at the top of the details page
       Game::Init();
+      Core::ECS::RegisterComponent<Transform>();  // EditorComponents need to be registered after their engine counterparts, otherwise there's an issue with copying
+      Core::ECS::RegisterComponent<MeshRenderer>();
+      Core::ECS::RegisterComponent<Camera>();
 
       activeScene = assetManager.LoadAsset<Engine::Core::Scene *>("editor");
       game.Init();
@@ -99,6 +106,11 @@ namespace Editor {
     }
 
     inline void CalculateFrame() override {
+      for (auto comp : selectedEntity.GetComponents()) {
+        if (auto editorComp = dynamic_cast<EditorComponent *>(comp)) {
+          editorComp->UpdateRealComponent();
+        }
+      }
       if (runGame) {
         if (!gameInitialized) {
           game.Start();

@@ -2,8 +2,7 @@
 
 #include <array>
 
-#include "Core/ECS.h"
-#include "Debug/Logging.h"
+#include "Components/EditorComponent.h"
 #include "Publishable.h"
 #include "json-parsing.h"
 
@@ -24,5 +23,10 @@ namespace Editor {
       AssignLabel(other.label.data());
     }
   };
+
+  template <> inline constexpr char const * Publishable<Display>::typeLabel = "Display";
+  template <> inline Publication Publishable<Display>::Publish(Display & value, const char * label) {
+    return { .label = value.label.data(), .type = Publication::Type::TEXT, .referencedPointer = value.label.data() };
+  }
 
 } // namespace Editor

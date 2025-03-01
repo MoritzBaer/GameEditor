@@ -1,7 +1,7 @@
 #include "SceneView.h"
 
 #include "Core/SceneHierarchy.h"
-#include "Display.h"
+#include "Components/Display.h"
 #include "EntityDetails.h"
 #include "imgui.h"
 

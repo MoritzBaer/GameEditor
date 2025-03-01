@@ -1,6 +1,7 @@
 #include "EntityDetails.h"
 
-#include "Publications/Components.h"
+#include "Components/EditorComponent.h"
+#include "Components/Display.h"
 #include "imgui.h"
 
 void Editor::EntityDetails::DrawContent() {
@@ -17,7 +18,10 @@ void Editor::EntityDetails::DrawContent() {
       }
     }
     for (auto c : selectedEntity->GetComponents()) {
-      DrawPublication(Publishable<Engine::Core::Component *>::Publish(c));
+      if (auto editorComponent = dynamic_cast<EditorComponent *>(c))
+        DrawPublication(editorComponent->Publish());
+      else if (auto display = dynamic_cast<Display *>(c))
+        DrawPublication(Publishable<Display>::Publish(*display));
     }
   }
 }

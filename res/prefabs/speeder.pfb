@@ -1,27 +1,27 @@
 {
     "components": [
         {
-            "Engine::TransformDSO": {
+            "Editor::TransformDSO": {
                 "position": { "data": [ 0, 0, 0 ] },
-                "rotation": { "w": 1, "x": 0, "y": 0, "z": 0 },
+                "rotation": { "data": [ 0, 0, 0 ] },
                 "scale": { "data": [ 1, 1, 1 ] }
             }
         },
         {
             "Engine::HierarchyDSO": {
                 "children": [
-                    { "Engine::AssetManager::AssetDSO<Engine::Core::Entity>":
-                        {
+                    {
+                        "Engine::AssetManager::AssetDSO<Engine::Core::Entity>": {
                             "components": [
                                 {
-                                    "Engine::TransformDSO": {
+                                    "Editor::TransformDSO": {
                                         "position": { "data": [ 0, 0, 0 ] },
-                                        "rotation": { "w": 1, "x": 0, "y": 0, "z": 0 },
+                                        "rotation": { "data": [ 0, 0, 0 ] },
                                         "scale": { "data": [ 1, 1, 1 ] }
                                     }
                                 },
                                 {
-                                    "Engine::MeshRendererDSO": {
+                                    "Editor::MeshRendererDSO": {
                                         "meshName": "speeder",
                                         "materialName": "speeder"
                                     }
@@ -34,18 +34,18 @@
                             ]
                         }
                     },
-                    { "Engine::AssetManager::AssetDSO<Engine::Core::Entity>":
-                        {
+                    {
+                        "Engine::AssetManager::AssetDSO<Engine::Core::Entity>": {
                             "components": [
                                 {
-                                    "Engine::TransformDSO": {
+                                    "Editor::TransformDSO": {
                                         "position": { "data": [ 0, 0, 0 ] },
-                                        "rotation": { "w": 1, "x": 0, "y": 0, "z": 0 },
+                                        "rotation": { "data": [ 0, 0, 0 ] },
                                         "scale": { "data": [ 1, 1, 1 ] }
                                     }
                                 },
                                 {
-                                    "Engine::MeshRendererDSO": {
+                                    "Editor::MeshRendererDSO": {
                                         "meshName": "guns",
                                         "materialName": "guns"
                                     }

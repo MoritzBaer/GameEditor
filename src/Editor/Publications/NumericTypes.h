@@ -5,8 +5,8 @@
 #include "Maths/Quaternion.h"
 
 #define DEDUCED_TYPE_IMPLEMENTATION_NUMERIC(ObjectType, PublicationType)                                               \
-  template <> constexpr char const *Editor::Publishable<ObjectType>::typeLabel = #ObjectType;                          \
-  template <> Editor::Publication Editor::Publishable<ObjectType>::Publish(ObjectType &value, const char *label) {     \
+  template <> inline constexpr char const *Editor::Publishable<ObjectType>::typeLabel = #ObjectType;                          \
+  template <> inline Editor::Publication Editor::Publishable<ObjectType>::Publish(ObjectType &value, const char *label) {     \
     return Publication{.label = label,                                                                                 \
                        .type = Publication::Type::PublicationType,                                                     \
                        .style = Publication::Style::DRAG,                                                              \

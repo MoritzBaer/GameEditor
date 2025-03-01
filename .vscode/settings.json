@@ -19,6 +19,10 @@
         "*.cef": "json",
         "*.scn": "json",
         "xtr1common": "cpp",
-        "chrono": "cpp"
+        "chrono": "cpp",
+        "algorithm": "cpp",
+        "limits": "cpp",
+        "utility": "cpp",
+        "xutility": "cpp"
     }
 }

@@ -5,14 +5,14 @@
             "Engine::AssetManager::AssetDSO<Engine::Core::Entity>": {
                 "components": [
                     {
-                        "Engine::TransformDSO": {
+                        "Editor::TransformDSO": {
                             "position": { "data": [ -4, 1, 4 ] },
-                            "rotation": { "w": 1, "x": 0, "y": 0, "z": 0 },
+                            "rotation": { "data": [ 0, 0, 0 ] },
                             "scale": { "data": [ 1, 1, 1 ] }
                         }
                     },
                     {
-                        "Engine::MeshRendererDSO": {
+                        "Editor::MeshRendererDSO": {
                             "meshName": "suzanne",
                             "materialName": "speeder"
                         }
@@ -29,19 +29,19 @@
             "Engine::AssetManager::AssetDSO<Engine::Core::Entity>": {
                 "components": [
                     {
-                        "Engine::TransformDSO": {
-                            "position": { "data": [ 0, 2, 15 ] },
-                            "rotation": { "w": 1, "x": 0, "y": 0, "z": 0 },
-                            "scale": { "data": [ 1, 1, 1 ] }
-                        }
-                    },
-                    {
                         "Editor::DisplayDSO": {
                             "label": "Main Camera"
                         }
                     },
                     {
-                        "Engine::CameraDSO": {
+                        "Editor::TransformDSO": {
+                            "position": { "data": [ 0, 2, 15 ] },
+                            "rotation": { "data": [ 0, 0, 0 ] },
+                            "scale": { "data": [ 1, 1, 1 ] }
+                        }
+                    },
+                    {
+                        "Editor::CameraDSO": {
                             "fov": 45,
                             "nearClip": 0.1,
                             "farClip": 100,
@@ -55,14 +55,14 @@
             "Engine::AssetManager::AssetDSO<Engine::Core::Entity>": {
                 "components": [
                     {
-                        "Engine::TransformDSO": {
+                        "Editor::TransformDSO": {
                             "position": { "data": [ 0, -1, 0 ] },
-                            "rotation": { "w": 1, "x": 0, "y": 0, "z": 0 },
+                            "rotation": { "data": [ 0, 0, 0 ] },
                             "scale": { "data": [ 20, 0.1, 20 ] }
                         }
                     },
                     {
-                        "Engine::MeshRendererDSO": {
+                        "Editor::MeshRendererDSO": {
                             "meshName": "cube",
                             "materialName": "guns"
                         }
@@ -89,9 +89,9 @@
             "Engine::AssetManager::AssetDSO<Engine::Core::Entity>": {
                 "components": [
                     {
-                        "Engine::TransformDSO": {
+                        "Editor::TransformDSO": {
                             "position": { "data": [ 0, 0, 0 ] },
-                            "rotation": { "w": 1, "x": 0, "y": 0, "z": 0 },
+                            "rotation": { "data": [ 0, 0, 0 ] },
                             "scale": { "data": [ 1, 1, 1 ] }
                         }
                     },
