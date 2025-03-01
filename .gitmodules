@@ -1,3 +1,6 @@
 [submodule "src/GraphicsEngine"]
 	path = dependencies/GraphicsEngine
 	url = https://github.com/MoritzBaer/GraphicsEngine
+[submodule "src/external/imGui"]
+	path = src/external/imGui
+	url = https://github.com/ocornut/imgui.git

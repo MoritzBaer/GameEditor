@@ -13,7 +13,7 @@ include_directories("dependencies/GraphicsEngine/src/")
 # Repeat includes from GraphicsEngine
 include_directories("dependencies/GraphicsEngine/src/Engine") # Only needed for includes between Engine files
 include_directories(${Vulkan_INCLUDE_DIR})
-include_directories("dependencies/GraphicsEngine/src/external/imgui")
+include_directories("src/external/imgui")
 include_directories("dependencies/GraphicsEngine/src/external/json-parsing")
 include_directories("dependencies/GraphicsEngine/src/external/stb")
 include_directories("dependencies/GraphicsEngine/dependencies/glfw-3.3.9.bin.WIN64/include")
@@ -22,7 +22,14 @@ include_directories("dependencies/GraphicsEngine/dependencies/GLM/")
 
 file(GLOB_RECURSE EditorFiles
     "src/Editor/*.h"
-    "src/Editor/*.cpp"
+    "src/Editor/*.cpp"            
+    "src/external/imgui/backends/imgui_impl_vulkan.cpp"     
+    "src/external/imgui/backends/imgui_impl_glfw.cpp"
+    "src/external/imgui/imgui_draw.cpp"
+    "src/external/imgui/imgui_tables.cpp"
+    "src/external/imgui/imgui_widgets.cpp"
+    "src/external/imgui/imgui.cpp"
+    "src/external/imgui/imgui_demo.cpp"
 )
 
 aux_source_directory(src/external EXTERNAL)
@@ -38,6 +45,7 @@ endif()
 
 add_executable(EditorDemo "src/main.cpp")
 
+set(BUILD_DEMO_APPS OFF CACHE BOOL "Build demo apps")
 add_subdirectory(dependencies/GraphicsEngine)
 
 target_link_libraries(EditorDemo Editor)
