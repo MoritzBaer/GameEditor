@@ -23,6 +23,14 @@
         "algorithm": "cpp",
         "limits": "cpp",
         "utility": "cpp",
-        "xutility": "cpp"
+        "xutility": "cpp",
+        "concepts": "cpp",
+        "functional": "cpp",
+        "memory": "cpp",
+        "ranges": "cpp",
+        "span": "cpp",
+        "xmemory": "cpp",
+        "xstring": "cpp",
+        "thread": "cpp"
     }
 }

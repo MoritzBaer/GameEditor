@@ -8,6 +8,17 @@
             }
         },
         {
+            "Engine::ScriptComponentDSO": {
+                "scripts": [
+                    {
+                        "Demo::BobbyScriptDSO": {
+                            "bobbingAmplitude": 0.3
+                        }
+                    }
+                ]
+            }
+        },
+        {
             "Engine::HierarchyDSO": {
                 "children": [
                     {

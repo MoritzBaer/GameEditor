@@ -7,10 +7,12 @@
 #define PUBLISH(object) PUBLISH_WITH_LABEL(object, #object)
 
 #define RANGE(min, max, step, publication) Editor::_Publication::AddRange(publication, min, max, step)
-#define PUBLISH_RANGE(object, min, max, step) RANGE(min, max, step, PUBLISH(object))
+#define PUBLISH_RANGE_WITH_LABEL(object, label, min, max, step) RANGE(min, max, step, PUBLISH_WITH_LABEL(object, label))
+#define PUBLISH_RANGE(object, min, max, step) PUBLISH_RANGE_WITH_LABEL(object, #object, min, max, step)
 #define SLIDER(min, max, step, publication)                                                                            \
   Editor::_Publication::SetStyle(RANGE(min, max, step, publication), Editor::Publication::Style::SLIDER)
-#define PUBLISH_SLIDER(object, min, max, step) SLIDER(min, max, step, PUBLISH(object))
+#define PUBLISH_SLIDER_WITH_LABEL(object, label, min, max, step) SLIDER(min, max, step, PUBLISH_WITH_LABEL(object, label))
+#define PUBLISH_SLIDER(object, min, max, step) PUBLISH_SLIDER_WITH_LABEL(object, #object, min, max, step)
 
 #define COMPOSITE(...)                                                                                                 \
   Editor::Publication {                                                                                                \

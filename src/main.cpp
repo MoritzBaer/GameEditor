@@ -1,39 +1,15 @@
 #include "Engine/Core/Script.h"
 #include "Engine/Core/Time.h"
 #include "Editor/Editor.h"
+#include "Demo/Scripts.h"
 
-struct SpinnyScript : public Core::Script {
-  Engine::Graphics::Transform * transform;
-  float rotationSpeed = 1.0f;
+#include "Components/Script.h"
 
-  SpinnyScript(Core::Entity entity) : Core::Script(entity) { }
-  void OnCreate() override { transform = entity.GetComponent<Engine::Graphics::Transform>(); }
-
-  void OnUpdate(Core::Clock const & clock) override {
-    transform->rotation =
-      (Engine::Maths::Transformations::RotateAroundAxis(Engine::Maths::Vector3(0, 1, 0), clock.deltaTime * 0.2f) *
-        transform->rotation)
-      .Normalized();
-  }
-
-  Script * Clone() override { return new SpinnyScript(entity); }
-};
-
-struct BobbyScript : public Core::Script {
-  Engine::Graphics::Transform * transform;
-  float initialY;
-  float bobbingAmplitude;
-
-  BobbyScript(Core::Entity entity, float bobbingAmplitude) : Core::Script(entity), bobbingAmplitude(bobbingAmplitude) { }
-
-  void OnStart() override { initialY = transform->position.y(); }
-  void OnCreate() override { transform = entity.GetComponent<Engine::Graphics::Transform>(); }
-  void OnUpdate(Core::Clock const & clock) override {
-    transform->position.y() = initialY + std::sin(clock.time) * bobbingAmplitude;
-  }
-
-  Script * Clone() override { return new BobbyScript(entity, bobbingAmplitude); }
-};
+namespace Editor {
+  //SCRIPT_CLONE(Demo::SpinnyScript, rotationSpeed)
+    //REGISTER_SCRIPT(Demo::SpinnyScript, rotationSpeed);
+    //REGISTER_SCRIPT(Demo::BobbyScript, bobbingAmplitude)
+} // namespace Editor
 
 struct TestProject : public Game {
   TestProject(Engine::Graphics::VulkanSuite

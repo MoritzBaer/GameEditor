@@ -15,6 +15,7 @@
 #include "SceneView.h"
 #include "WindowedApplication.h"
 #include "Components/EditorComponent.h"
+#include "Components/Script.h"
 
 namespace Editor {
   struct GameControl : public Engine::Graphics::ImGUIView {
@@ -88,7 +89,7 @@ namespace Editor {
       imGuiManager->RegisterView(&gameView);
       imGuiManager->RegisterView(&viewport);
 
-      Core::ECS::RegisterComponent<Display>();    // Should be registered first so it appears at the top of the details page
+      Core::ECS::RegisterComponent<Display>();
       Game::Init();
       Core::ECS::RegisterComponent<Transform>();  // EditorComponents need to be registered after their engine counterparts, otherwise there's an issue with copying
       Core::ECS::RegisterComponent<MeshRenderer>();

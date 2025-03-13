@@ -3,6 +3,29 @@
 #include "Components/EditorComponent.h"
 #include "Components/Display.h"
 #include "imgui.h"
+#include "Components/Script.h"
+#include "Publications/NumericTypes.h"
+
+
+#ifdef SCRIPT_PUBLICATION_SOURCE
+#pragma message("SCRIPT_PUBLICATION_SOURCE defined as " SCRIPT_PUBLICATION_SOURCE)
+#include SCRIPT_PUBLICATION_SOURCE
+#endif
+
+#ifndef SCRIPT_PUBLICATIONS
+#define SCRIPT_PUBLICATIONS
+#endif
+
+struct TestScript : public Engine::Core::Script {
+  float testValue = 0.0f;
+  TestScript(Engine::Core::Entity entity) : Engine::Core::Script(entity) { }
+  void OnUpdate(Engine::Core::Clock const & clock) override {
+    testValue += 0.1f;
+  }
+  void Clone(Engine::Core::ScriptComponent * targetComponent) override {
+    targetComponent->InstantiateScript<TestScript>();
+  }
+};
 
 void Editor::EntityDetails::DrawContent() {
   if (selectedEntity->IsAlive()) {
@@ -17,11 +40,21 @@ void Editor::EntityDetails::DrawContent() {
         selectedEntity->SetActive(active);
       }
     }
+
+    if (selectedEntity->HasComponent<Display>()) {
+      DrawPublication(Publishable<Display>::Publish(*selectedEntity->GetComponent<Display>()));
+    }
+
     for (auto c : selectedEntity->GetComponents()) {
       if (auto editorComponent = dynamic_cast<EditorComponent *>(c))
         DrawPublication(editorComponent->Publish());
-      else if (auto display = dynamic_cast<Display *>(c))
-        DrawPublication(Publishable<Display>::Publish(*display));
+    }
+
+    if (selectedEntity->HasComponent<Engine::Core::ScriptComponent>()) {
+      for (auto script : selectedEntity->GetComponent<Engine::Core::ScriptComponent>()->scripts) {
+        SCRIPT_PUBLICATIONS
+          DrawPublication({ .label = "Unknown script", .type = Publication::Type::TEXT });
+      }
     }
   }
 }

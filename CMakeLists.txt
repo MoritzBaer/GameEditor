@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD 23)
 find_package(Vulkan REQUIRED COMPONENTS shaderc_combined)
 
 include_directories("src/Editor")
+include_directories("src/Demo")
 include_directories("dependencies/GraphicsEngine/src/")
 
 # Repeat includes from GraphicsEngine
@@ -22,8 +23,8 @@ include_directories("dependencies/GraphicsEngine/dependencies/GLM/")
 
 file(GLOB_RECURSE EditorFiles
     "src/Editor/*.h"
-    "src/Editor/*.cpp"            
-    "src/external/imgui/backends/imgui_impl_vulkan.cpp"     
+    "src/Editor/*.cpp"
+    "src/external/imgui/backends/imgui_impl_vulkan.cpp"
     "src/external/imgui/backends/imgui_impl_glfw.cpp"
     "src/external/imgui/imgui_draw.cpp"
     "src/external/imgui/imgui_tables.cpp"
@@ -34,6 +35,7 @@ file(GLOB_RECURSE EditorFiles
 
 aux_source_directory(src/external EXTERNAL)
 
+add_compile_options(/Zc:preprocessor)
 add_library(Editor STATIC ${EditorFiles})
 
 string(LENGTH "${CMAKE_SOURCE_DIR}/src/" SOURCE_PATH_SIZE)
@@ -41,6 +43,13 @@ add_compile_definitions(SOURCE_PATH_SIZE=${SOURCE_PATH_SIZE})
 
 if(NOT DEFINED USER_COMPONENTS_SOURCE_PATH)
     set(USER_COMPONENTS_SOURCE_PATH "\"${CMAKE_SOURCE_DIR}/src/Editor/Deserialization/EditorComponents.h\"" CACHE STRING "Path to user components definition")
+endif()
+
+if(DEFINED SCRIPT_PUBLICATION_PATH)
+    message("SCRIPT_PUBLICATION_PATH defined, adding definition")
+    add_compile_definitions(SCRIPT_PUBLICATION_SOURCE=${SCRIPT_PUBLICATION_PATH})
+else()
+    add_compile_definitions(SCRIPT_PUBLICATION_SOURCE="ScriptPublications.h")
 endif()
 
 add_executable(EditorDemo "src/main.cpp")

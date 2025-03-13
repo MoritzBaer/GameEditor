@@ -5,12 +5,13 @@
 #include "Components/MeshRenderer.h"
 #include "Components/Camera.h"
 #include "Engine/Util/AssetParsing/Members.h"
+#include "Components/Script.h"
 
 #define EDITOR_COMPONENTS                                                                                              \
   INHERITANCE_PARSER(Engine::ComponentDSO, Editor::MeshRendererDSO)                                                    \
   INHERITANCE_PARSER(Engine::ComponentDSO, Editor::DisplayDSO)                                                         \
   INHERITANCE_PARSER(Engine::ComponentDSO, Editor::CameraDSO)                                                          \
-  INHERITANCE_PARSER(Engine::ComponentDSO, Editor::TransformDSO)
+  INHERITANCE_PARSER(Engine::ComponentDSO, Editor::TransformDSO)                                                       
 
 #ifndef USER_COMPONENTS
 #define USER_COMPONENTS EDITOR_COMPONENTS
