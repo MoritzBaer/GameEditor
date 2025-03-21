@@ -6,7 +6,6 @@
 #include "Components/Script.h"
 #include "Publications/NumericTypes.h"
 
-
 #ifdef SCRIPT_PUBLICATION_SOURCE
 #pragma message("SCRIPT_PUBLICATION_SOURCE defined as " SCRIPT_PUBLICATION_SOURCE)
 #include SCRIPT_PUBLICATION_SOURCE
@@ -15,6 +14,12 @@
 #ifndef SCRIPT_PUBLICATIONS
 #define SCRIPT_PUBLICATIONS
 #endif
+
+template <> inline constexpr char const * Editor::Publishable<Engine::Core::Script *>::typeLabel = "Script";
+template <> inline Editor::Publication Editor::Publishable<Engine::Core::Script *>::Publish(Engine::Core::Script *& value, const char * label) {
+  SCRIPT_PUBLICATIONS
+    return { .label = "Unknown script", .type = Publication::Type::TEXT };
+}
 
 struct TestScript : public Engine::Core::Script {
   float testValue = 0.0f;
@@ -52,8 +57,7 @@ void Editor::EntityDetails::DrawContent() {
 
     if (selectedEntity->HasComponent<Engine::Core::ScriptComponent>()) {
       for (auto script : selectedEntity->GetComponent<Engine::Core::ScriptComponent>()->scripts) {
-        SCRIPT_PUBLICATIONS
-          DrawPublication({ .label = "Unknown script", .type = Publication::Type::TEXT });
+        DrawPublication(Publishable<Engine::Core::Script *>::Publish(script));
       }
     }
   }
