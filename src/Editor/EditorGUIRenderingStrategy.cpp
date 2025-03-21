@@ -1,19 +1,21 @@
 #include "EditorGUIRenderingStrategy.h"
 #include "Engine/Graphics/GPUObjectManager.h"
 #include "Engine/Graphics/VulkanUtil.h"
+#include "imgui.h"
+#include "backends/imgui_impl_vulkan.h"
 
 class ImGUIDrawCommand : public Engine::Graphics::Command {
-  Engine::Graphics::Image2 const &targetImage;
+  Engine::Graphics::Image2 const & targetImage;
 
 public:
-  ImGUIDrawCommand(Engine::Graphics::Image2 const &targetImage) : targetImage(targetImage) {}
-  void QueueExecution(VkCommandBuffer const &queue) const;
+  ImGUIDrawCommand(Engine::Graphics::Image2 const & targetImage) : targetImage(targetImage) { }
+  void QueueExecution(VkCommandBuffer const & queue) const;
 };
 
-void ImGUIDrawCommand::QueueExecution(VkCommandBuffer const &queue) const {
+void ImGUIDrawCommand::QueueExecution(VkCommandBuffer const & queue) const {
   if (auto drawData = ImGui::GetDrawData()) {
     auto colourInfo = targetImage.BindAsColourAttachment();
-    VkExtent2D extent = {targetImage.GetExtent().x(), targetImage.GetExtent().y()};
+    VkExtent2D extent = { targetImage.GetExtent().x(), targetImage.GetExtent().y() };
     VkRenderingInfo renderInfo = Engine::Graphics::vkinit::RenderingInfo(colourInfo, extent);
 
     vkCmdBeginRendering(queue, &renderInfo);
@@ -25,13 +27,13 @@ void ImGUIDrawCommand::QueueExecution(VkCommandBuffer const &queue) const {
 }
 
 std::vector<Engine::Graphics::Command *> Editor::EditorGUIRenderingStrategy::GetRenderingCommands(
-    Engine::Graphics::RenderingRequest const &request,
-    Engine::Graphics::Buffer<Engine::Graphics::DrawData> const &uniformBuffer,
-    Engine::Graphics::DescriptorAllocator &descriptorAllocator, Engine::Graphics::DescriptorWriter &descriptorWriter,
-    Engine::Graphics::Image<2> &renderTarget) {
+  Engine::Graphics::RenderingRequest const & request,
+  Engine::Graphics::Buffer<Engine::Graphics::DrawData> const & uniformBuffer,
+  Engine::Graphics::DescriptorAllocator & descriptorAllocator, Engine::Graphics::DescriptorWriter & descriptorWriter,
+  Engine::Graphics::Image<2> & renderTarget) {
 
   auto renderingCommands =
-      subStrategy->GetRenderingCommands(request, uniformBuffer, descriptorAllocator, descriptorWriter, renderBuffer);
+    subStrategy->GetRenderingCommands(request, uniformBuffer, descriptorAllocator, descriptorWriter, renderBuffer);
 
   auto transitionBufferToTransferSrc = renderBuffer.Transition(VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL);
   auto transitionTargetToTransferDst = renderTarget.Transition(VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
@@ -53,9 +55,9 @@ std::vector<Engine::Graphics::Command *> Editor::EditorGUIRenderingStrategy::Get
 
 void Editor::EditorGUIRenderingStrategy::CreateRenderBuffer() {
   renderBuffer =
-      objectManager->CreateAllocatedImage(VK_FORMAT_R8G8B8A8_UNORM, targetResolution,
-                                          VK_IMAGE_USAGE_STORAGE_BIT | VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT |
-                                              VK_IMAGE_USAGE_TRANSFER_SRC_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT,
-                                          VK_IMAGE_ASPECT_COLOR_BIT);
+    objectManager->CreateAllocatedImage(VK_FORMAT_R8G8B8A8_UNORM, targetResolution,
+      VK_IMAGE_USAGE_STORAGE_BIT | VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT |
+      VK_IMAGE_USAGE_TRANSFER_SRC_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT,
+      VK_IMAGE_ASPECT_COLOR_BIT);
 }
 void Editor::EditorGUIRenderingStrategy::DestroyRenderBuffer() { objectManager->DestroyAllocatedImage(renderBuffer); }

@@ -36,6 +36,7 @@ file(GLOB_RECURSE EditorFiles
 aux_source_directory(src/external EXTERNAL)
 
 add_compile_options(/Zc:preprocessor)
+add_definitions("-DUSING_IMGUI")
 add_library(Editor STATIC ${EditorFiles})
 
 string(LENGTH "${CMAKE_SOURCE_DIR}/src/" SOURCE_PATH_SIZE)

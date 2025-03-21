@@ -7,11 +7,11 @@
 #include "Engine/Util/AssetParsing/Members.h"
 #include "Components/Script.h"
 
-#define EDITOR_COMPONENTS                                                                                              \
-  INHERITANCE_PARSER(Engine::ComponentDSO, Editor::MeshRendererDSO)                                                    \
-  INHERITANCE_PARSER(Engine::ComponentDSO, Editor::DisplayDSO)                                                         \
-  INHERITANCE_PARSER(Engine::ComponentDSO, Editor::CameraDSO)                                                          \
-  INHERITANCE_PARSER(Engine::ComponentDSO, Editor::TransformDSO)                                                       
+#define EDITOR_COMPONENTS                                                     \
+  Editor::MeshRendererDSO,                                                    \
+  Editor::DisplayDSO,                                                         \
+  Editor::CameraDSO,                                                          \
+  Editor::TransformDSO                                                      
 
 #ifndef USER_COMPONENTS
 #define USER_COMPONENTS EDITOR_COMPONENTS
@@ -66,7 +66,7 @@ namespace Editor {
 
 } // namespace Engine
 
-OBJECT_PARSER(Editor::DisplayDSO, FIELD_PARSER(label));
-OBJECT_PARSER(Editor::TransformDSO, FIELD_PARSER(position) FIELD_PARSER(rotation) FIELD_PARSER(scale));
-OBJECT_PARSER(Editor::MeshRendererDSO, FIELD_PARSER(meshName) FIELD_PARSER(materialName));
-OBJECT_PARSER(Editor::CameraDSO, FIELD_PARSER(fov) FIELD_PARSER(nearClip) FIELD_PARSER(farClip) FIELD_PARSER(aspectRatio));
+JSON(Editor::DisplayDSO, FIELDS(label));
+JSON(Editor::TransformDSO, FIELDS(position, rotation, scale));
+JSON(Editor::MeshRendererDSO, FIELDS(meshName, materialName));
+JSON(Editor::CameraDSO, FIELDS(fov, nearClip, farClip, aspectRatio));
