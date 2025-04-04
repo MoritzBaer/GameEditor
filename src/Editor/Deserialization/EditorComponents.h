@@ -4,8 +4,8 @@
 #include "Components/Transform.h"
 #include "Components/MeshRenderer.h"
 #include "Components/Camera.h"
-#include "Engine/Util/AssetParsing/Members.h"
 #include "Components/Script.h"
+#include "Engine/Util/AssetParsing/ComponentParsing.h"
 
 #define EDITOR_COMPONENTS                                                     \
   Editor::MeshRendererDSO,                                                    \
@@ -21,7 +21,7 @@ namespace Editor {
   struct DisplayDSO : public ComponentDSO_T<Display> {
     std::string label;
 
-    void FillValues(Display * display, AssetManager::LoaderMembers<Core::Entity> * loaderMembers) override {
+    void FillValues(Display * display, AssetManager *) override {
       display->AssignLabel(label.c_str());
     }
   };
@@ -29,7 +29,7 @@ namespace Editor {
   struct TransformDSO : public ComponentDSO_T<Transform> {
     Engine::Maths::Vector3 position, rotation, scale;
 
-    void FillValues(Transform * transform, AssetManager::LoaderMembers<Core::Entity> * loaderMembers) override {
+    void FillValues(Transform * transform, AssetManager *) override {
       transform->position = position;
       transform->rotation = rotation;
       transform->scale = scale;
@@ -41,10 +41,10 @@ namespace Editor {
     std::string meshName;
     std::string materialName;
 
-    void FillValues(MeshRenderer * meshRenderer, AssetManager::LoaderMembers<Core::Entity> * loaderMembers) override {
+    void FillValues(MeshRenderer * meshRenderer, AssetManager * assetManager) override {
       meshRenderer->meshName = meshName;
       meshRenderer->materialName = materialName;
-      meshRenderer->SetAssetManager(loaderMembers->assetManager);
+      meshRenderer->SetAssetManager(assetManager);
       meshRenderer->UpdateRealComponent();
     }
   };
@@ -55,7 +55,7 @@ namespace Editor {
     float farClip;
     float aspectRatio;
 
-    void FillValues(Camera * camera, AssetManager::LoaderMembers<Core::Entity> * loaderMembers) override {
+    void FillValues(Camera * camera, AssetManager *) override {
       camera->fov = fov;
       camera->nearClip = nearClip;
       camera->farClip = farClip;

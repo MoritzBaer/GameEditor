@@ -53,6 +53,12 @@ else()
     add_compile_definitions(SCRIPT_PUBLICATION_SOURCE="ScriptPublications.h")
 endif()
 
+if(DEFINED RESOURCE_PATH)
+    add_compile_definitions(RESOURCE_PATH="${RESOURCE_PATH}")
+else()
+    add_compile_definitions(RESOURCE_PATH="${CMAKE_SOURCE_DIR}/res/")
+endif()
+
 add_executable(EditorDemo "src/main.cpp")
 
 set(BUILD_DEMO_APPS OFF CACHE BOOL "Build demo apps")

@@ -7,15 +7,18 @@
 #include "Components/Camera.h"
 #include "EditorGUIRenderingStrategy.h"
 #include "ImGUIManager.h"
-#include "EntityDetails.h"
 #include "Game.h"
 #include "Graphics/RenderingStrategies/ComputeBackground.h"
 #include "Graphics/RenderingStrategies/ForwardRendering.h"
-#include "RenderView.h"
-#include "SceneView.h"
+#include "Views/EntityDetails.h"
+#include "Views/RenderView.h"
+#include "Views/SceneView.h"
 #include "WindowedApplication.h"
 #include "Components/EditorComponent.h"
 #include "Components/Script.h"
+#include "HotShaderReload.h"
+
+using namespace Engine::Graphics;
 
 namespace Editor {
   struct GameControl : public Engine::Graphics::ImGUIView {
@@ -32,6 +35,7 @@ namespace Editor {
   struct DebugInfo : public Engine::Graphics::ImGUIView {
     bool showImGuiDemo = false;
     Engine::Core::Clock const * clock;
+    ShaderReloader shaderReloader;
     DebugInfo(Engine::Core::Clock const * clock) : ImGUIView("Debug Info"), clock(clock) { }
 
     void DrawContent() override {
@@ -50,6 +54,10 @@ namespace Editor {
       ImGui::Text("Time: %.2f", clock->time);
       ImGui::SameLine();
       ImGui::Text("Delta Time: %.8f", clock->deltaTime);
+
+      if (ImGui::Button("Reload Shaders")) {
+        shaderReloader.DoHotReload();
+      }
     }
   };
 
@@ -96,6 +104,38 @@ namespace Editor {
       Core::ECS::RegisterComponent<Camera>();
 
       activeScene = assetManager.LoadAsset<Engine::Core::Scene *>("editor");
+
+      auto * vertexShaderManager = game.assetManager.RegisterAssetType<Shader<ShaderType::VERTEX>>(
+        ShaderLoader<ShaderType::VERTEX>(&shaderCompiler),
+        ShaderCache<ShaderType::VERTEX>(&shaderCompiler));
+      auto * geometryShaderManager = game.assetManager.RegisterAssetType<Shader<ShaderType::GEOMETRY>>(
+        ShaderLoader<ShaderType::GEOMETRY>(&shaderCompiler),
+        ShaderCache<ShaderType::GEOMETRY>(&shaderCompiler));
+      auto * fragmentShaderManager = game.assetManager.RegisterAssetType<Shader<ShaderType::FRAGMENT>>(
+        ShaderLoader<ShaderType::FRAGMENT>(&shaderCompiler),
+        ShaderCache<ShaderType::FRAGMENT>(&shaderCompiler));
+      auto * computeShaderManager = game.assetManager.RegisterAssetType<Shader<ShaderType::COMPUTE>>(
+        ShaderLoader<ShaderType::COMPUTE>(&shaderCompiler),
+        ShaderCache<ShaderType::COMPUTE>(&shaderCompiler));
+      auto * pipelineManager = game.assetManager.RegisterAssetType<Pipeline *>(ReloadablePipelineManager(
+        &game.vulkan->instanceManager, &game.assetManager));
+      auto * compiledEffectManager = game.assetManager.RegisterAssetType<RenderingStrategies::CompiledEffect>(
+        CompiledEffectLoader(&game.vulkan->instanceManager, &game.assetManager),
+        CompiledEffectCache(&game.vulkan->instanceManager));
+      auto * backgroundEffectManager = game.assetManager.RegisterAssetType<RenderingStrategies::ComputeBackground *>(
+        ReloadableBackgroundEffectManager(&vulkan->instanceManager, &game.assetManager));
+
+      debugInfo.shaderReloader = ShaderReloader(
+        &vulkan->instanceManager,
+        vertexShaderManager,
+        geometryShaderManager,
+        fragmentShaderManager,
+        computeShaderManager,
+        pipelineManager,
+        compiledEffectManager,
+        backgroundEffectManager
+      );
+
       game.Init();
       sceneView.SetSceneHierarchy(&game.activeScene->sceneHierarchy);
       game.renderer.SetRenderResourceProvider(&gameView);

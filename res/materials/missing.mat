@@ -3,7 +3,7 @@
     "instanceData": {
         "Engine::AlbedoAndBumpData": {
             "albedoTexture": "missing",
-            "bumpTexture": "missing",
+            "bumpTexture": "normalUp",
             "specularStrength": 0,
             "phongExponent": 0
         }
