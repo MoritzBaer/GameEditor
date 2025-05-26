@@ -23,7 +23,7 @@ namespace Editor {
       Engine::Graphics::InstanceManager const * instanceManager)
       : Engine::Graphics::ImGUIView("Game"), Engine::Graphics::RenderResourceProvider(),
       renderTarget(objectManager->CreateTexture(Maths::Dimension2{ 1600, 900 }, VK_FILTER_LINEAR, VK_FILTER_LINEAR,
-        VK_FORMAT_R8G8B8A8_UNORM, true, VK_SAMPLE_COUNT_1_BIT,
+        VK_FORMAT_R16G16B16A16_SFLOAT, true, VK_SAMPLE_COUNT_1_BIT,
         VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT |
         VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT)) {
 
@@ -47,8 +47,7 @@ namespace Editor {
       frameResources.descriptorWriter = DescriptorWriter(instanceManager);
       frameResources.descriptorAllocator = DescriptorAllocator(instanceManager);
       frameResources.descriptorAllocator.InitPools(10, frame_sizes);
-      frameResources.uniformBuffer =
-        objectManager->CreateBuffer<DrawData>(1, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VMA_MEMORY_USAGE_CPU_TO_GPU);
+      frameResources.uniformBinder = UniformBinder(objectManager);
     }
 
     FrameResources GetFrameResources() override { return frameResources; }

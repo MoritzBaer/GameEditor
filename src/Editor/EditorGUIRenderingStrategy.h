@@ -19,10 +19,11 @@ public:
   void DestroyRenderBuffer();
   std::vector<Engine::Graphics::Command *>
   GetRenderingCommands(Engine::Graphics::RenderingRequest const &request,
-                       Engine::Graphics::Buffer<Engine::Graphics::DrawData> const &uniformBuffer,
+                       Engine::Graphics::UniformBinder &uniformBinder,
                        Engine::Graphics::DescriptorAllocator &descriptorAllocator,
                        Engine::Graphics::DescriptorWriter &descriptorWriter,
-                       Engine::Graphics::Image<2> &renderTarget) override;
+                       Engine::Graphics::Image<2> &renderTarget,
+                       Engine::Graphics::Image<2> *depthTarget) override;
 
   EditorGUIRenderingStrategy(Engine::Graphics::GPUObjectManager
 #ifdef NDEBUG

@@ -33,7 +33,7 @@ if(NOT DEFINED USER_COMPONENTS_SOURCE_PATH)
 endif()
 
 set(BUILD_DEMO_APPS OFF CACHE BOOL "Build demo apps")
-set(DELIVER_RESOURCES OFF CACHE BOOL "Copy resources to binary directory")
+#set(DELIVER_RESOURCES OFF CACHE BOOL "Copy resources to binary directory")
 add_subdirectory(dependencies/GraphicsEngine)
 target_include_directories(Engine PUBLIC "src/external/imgui/")
 target_include_directories(Engine PUBLIC "src/Editor/")

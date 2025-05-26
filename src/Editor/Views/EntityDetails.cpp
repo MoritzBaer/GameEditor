@@ -21,17 +21,6 @@ template <> inline Editor::Publication Editor::Publishable<Engine::Core::Script 
     return { .label = "Unknown script", .type = Publication::Type::TEXT };
 }
 
-struct TestScript : public Engine::Core::Script {
-  float testValue = 0.0f;
-  TestScript(Engine::Core::Entity entity) : Engine::Core::Script(entity) { }
-  void OnUpdate(Engine::Core::Clock const & clock) override {
-    testValue += 0.1f;
-  }
-  void Clone(Engine::Core::ScriptComponent * targetComponent) override {
-    targetComponent->InstantiateScript<TestScript>();
-  }
-};
-
 void Editor::EntityDetails::DrawContent() {
   if (selectedEntity->IsAlive()) {
     {
