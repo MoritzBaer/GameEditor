@@ -1,5 +1,14 @@
 #include "HotShaderReload.h"
 
+#ifdef RESOURCE_PATH
+#pragma message("RESOURCE_PATH defined as '" RESOURCE_PATH "'.")
+#else
+#pragma message("RESOURCE_PATH not defined, using default 'res/'")
+#define RESOURCE_PATH "res/"
+#endif
+
+static inline const std::string shaderPath = std::string(RESOURCE_PATH) + "shaders/";
+
 void HotReloadPipeline(std::string pipelineName, Pipeline * currentPipeline) {
 
 }
@@ -21,3 +30,19 @@ void Editor::ReloadableBackgroundEffectManager::HotReloadAllEffects() {
         delete newEffect;
     }
 }
+
+void Editor::ShaderReloader::DoHotReload() { {
+    Util::FileIO::CopyDirectory(shaderPath, "res/shaders/");
+
+    vertexShaderManager->Cleanup();
+    geometryShaderManager->Cleanup();
+    fragmentShaderManager->Cleanup();
+    computeShaderManager->Cleanup();
+
+    instanceManager->WaitUntilDeviceIdle();
+
+    compiledEffectManager->Cleanup();
+    pipelineManager->HotReloadAllPipelines();
+    backgroundEffectManager->HotReloadAllEffects();
+}
+ }

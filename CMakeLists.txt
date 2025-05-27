@@ -42,13 +42,6 @@ target_include_directories(Engine PUBLIC "dependencies/GraphicsEngine/src/")
 aux_source_directory(src/external EXTERNAL)
 
 add_compile_options(/Zc:preprocessor)
-add_library(Editor STATIC ${EditorFiles})
-
-target_include_directories(Editor PUBLIC "src/Editor/")
-target_include_directories(Editor PUBLIC "src/Demo/")
-target_include_directories(Editor PUBLIC "src/external/imgui/")
-target_include_directories(Editor PUBLIC "dependencies/GraphicsEngine/src/")
-target_link_libraries(Editor PUBLIC Engine)
 
 string(LENGTH "${PROJECT_SOURCE_DIR}/src/" SOURCE_PATH_SIZE)
 add_compile_definitions(SOURCE_PATH_SIZE=${SOURCE_PATH_SIZE})
@@ -61,10 +54,19 @@ else()
 endif()
 
 if(DEFINED RESOURCE_PATH)
+    message("-- RESOURCE_PATH defined as ${RESOURCE_PATH}, adding definition")
     add_compile_definitions(RESOURCE_PATH="${RESOURCE_PATH}")
 else()
     add_compile_definitions(RESOURCE_PATH="${PROJECT_SOURCE_DIR}/res/")
 endif()
+
+add_library(Editor STATIC ${EditorFiles})
+
+target_include_directories(Editor PUBLIC "src/Editor/")
+target_include_directories(Editor PUBLIC "src/Demo/")
+target_include_directories(Editor PUBLIC "src/external/imgui/")
+target_include_directories(Editor PUBLIC "dependencies/GraphicsEngine/src/")
+target_link_libraries(Editor PUBLIC Engine)
 
 add_executable(EditorDemo "src/main.cpp")
 

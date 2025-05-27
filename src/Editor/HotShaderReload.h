@@ -6,10 +6,6 @@
 using namespace Engine::Graphics;
 using namespace Engine;
 
-#ifndef RESOURCE_PATH
-#define RESOURCE_PATH "res/"
-#endif
-
 namespace Editor {
 
     class ReloadablePipelineManager {
@@ -59,8 +55,6 @@ namespace Editor {
         CompiledEffectManager * compiledEffectManager;
         ReloadableBackgroundEffectManager * backgroundEffectManager;
 
-        static inline const std::string shaderPath = std::string(RESOURCE_PATH) + "shaders/";
-
     public:
         ShaderReloader() : vertexShaderManager(nullptr), geometryShaderManager(nullptr),
             fragmentShaderManager(nullptr), computeShaderManager(nullptr), pipelineManager(nullptr),
@@ -80,20 +74,7 @@ namespace Editor {
             compiledEffectManager(compiledEffectManager),
             backgroundEffectManager(backgroundEffectManager) { }
 
-        inline void DoHotReload() {
-            Util::FileIO::CopyDirectory(shaderPath, "res/shaders/");
-
-            vertexShaderManager->Cleanup();
-            geometryShaderManager->Cleanup();
-            fragmentShaderManager->Cleanup();
-            computeShaderManager->Cleanup();
-
-            instanceManager->WaitUntilDeviceIdle();
-
-            compiledEffectManager->Cleanup();
-            pipelineManager->HotReloadAllPipelines();
-            backgroundEffectManager->HotReloadAllEffects();
-        }
+        void DoHotReload();
     };
 
 } // namespace Editor
