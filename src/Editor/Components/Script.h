@@ -4,7 +4,8 @@
 #include "Engine/Core/Script.h"
 #include "pp-foreach.h"
 
-#define S_PUBLISH_WITH_LABEL(object, label) Editor::Publishable<decltype(script->object)>::Publish(script->object, label)
+#define SCRIPT_VALUE(object) script->object
+#define S_PUBLISH_WITH_LABEL(object, label) Editor::Publishable<decltype(SCRIPT_VALUE(object))>::Publish(SCRIPT_VALUE(object), label)
 #define S_PUBLISH(object) S_PUBLISH_WITH_LABEL(object, #object)
 #define S_PUBLISH_RANGE_WITH_LABEL(object, label, min, max, step) RANGE(min, max, step, S_PUBLISH_WITH_LABEL(object, label))
 #define S_PUBLISH_RANGE(object, min, max, step) S_PUBLISH_RANGE_WITH_LABEL(object, #object, min, max, step)

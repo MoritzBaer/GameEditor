@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.28)
 
 project(GAME_EDITOR)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(CMAKE_CXX_STANDARD 23)
 
@@ -47,7 +48,7 @@ string(LENGTH "${PROJECT_SOURCE_DIR}/src/" SOURCE_PATH_SIZE)
 add_compile_definitions(SOURCE_PATH_SIZE=${SOURCE_PATH_SIZE})
 
 if(DEFINED SCRIPT_PUBLICATION_PATH)
-    message("-- SCRIPT_PUBLICATION_PATH defined, adding definition")
+    message("-- SCRIPT_PUBLICATION_PATH defined as ${SCRIPT_PUBLICATION_PATH}, adding definition")
     add_compile_definitions(SCRIPT_PUBLICATION_SOURCE=${SCRIPT_PUBLICATION_PATH})
 else()
     add_compile_definitions(SCRIPT_PUBLICATION_SOURCE="ScriptPublications.h")
