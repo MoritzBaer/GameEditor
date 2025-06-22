@@ -6,30 +6,19 @@ namespace Editor {
 
 class EditorGUIRenderingStrategy : public Engine::Graphics::RenderingStrategy {
   Engine::Graphics::RenderingStrategy *subStrategy;
-  Engine::Graphics::GPUObjectManager
-#ifdef NDEBUG
-      const
-#endif
-          *objectManager;
-  Engine::Graphics::AllocatedImage2 renderBuffer;
+  Engine::Graphics::GPUObjectManager RELEASE_CONST *objectManager;
+  Engine::Graphics::Image2 renderBuffer;
   Engine::Maths::Dimension2 targetResolution;
 
 public:
   void CreateRenderBuffer();
   void DestroyRenderBuffer();
-  std::vector<Engine::Graphics::Command *>
-  GetRenderingCommands(Engine::Graphics::RenderingRequest const &request,
-                       Engine::Graphics::UniformBinder &uniformBinder,
-                       Engine::Graphics::DescriptorAllocator &descriptorAllocator,
-                       Engine::Graphics::DescriptorWriter &descriptorWriter,
-                       Engine::Graphics::Image<2> &renderTarget,
-                       Engine::Graphics::Image<2> *depthTarget) override;
+  std::vector<Engine::Graphics::Command const *> GetRenderingCommands(
+      Engine::Graphics::RenderingRequest const &request, Engine::Graphics::UniformBinder &uniformBinder,
+      Engine::Graphics::DescriptorAllocator &descriptorAllocator, Engine::Graphics::DescriptorWriter &descriptorWriter,
+      Engine::Graphics::Image<2> &renderTarget, std::optional<Engine::Graphics::Image<2>> &depthTarget) override;
 
-  EditorGUIRenderingStrategy(Engine::Graphics::GPUObjectManager
-#ifdef NDEBUG
-                             const
-#endif
-                                 *objectManager,
+  EditorGUIRenderingStrategy(Engine::Graphics::GPUObjectManager RELEASE_CONST *objectManager,
                              Engine::Graphics::RenderingStrategy *subStrategy)
       : subStrategy(subStrategy), objectManager(objectManager), targetResolution(1600, 900) {
     CreateRenderBuffer();

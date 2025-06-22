@@ -76,11 +76,7 @@ namespace Editor {
     EntityDetails entityDetails;
 
     template <typename... GameArgs>
-    Editor(Engine::Graphics::VulkanSuite
-#ifdef NDEBUG
-      const
-#endif
-      * vulkan,
+    Editor(Engine::Graphics::VulkanSuite RELEASE_CONST     * vulkan,
       Engine::Graphics::ImGUIManager * imGuiManager, GameArgs &&...gameArgs)
       : Game("Editor", vulkan), game(vulkan, std::forward<GameArgs>(gameArgs)...), gameControl(&runGame),
       runGame(false), gameInitialized(false), imGuiManager(imGuiManager), sceneView(&selectedEntity),

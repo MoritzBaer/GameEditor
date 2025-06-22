@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Graphics/RenderTargetProvider.h"
+#include "Engine/Graphics/RenderResourceProvider.h"
 #include "ImGUIManager.h"
 
 using namespace Engine::Graphics;
@@ -15,11 +15,7 @@ namespace Editor {
 
     bool renderTextureInitialized = false;
 
-    RenderView(Engine::Graphics::GPUObjectManager
-#ifdef NDEBUG
-      const
-#endif
-      * objectManager,
+    RenderView(Engine::Graphics::GPUObjectManager RELEASE_CONST     * objectManager,
       Engine::Graphics::InstanceManager const * instanceManager)
       : Engine::Graphics::ImGUIView("Game"), Engine::Graphics::RenderResourceProvider(),
       renderTarget(objectManager->CreateTexture(Maths::Dimension2{ 1600, 900 }, VK_FILTER_LINEAR, VK_FILTER_LINEAR,

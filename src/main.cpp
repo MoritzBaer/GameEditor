@@ -12,11 +12,7 @@ namespace Editor {
 } // namespace Editor
 
 struct TestProject : public Game {
-  TestProject(Engine::Graphics::VulkanSuite
-#ifdef NDEBUG
-    const
-#endif
-    * vulkan)
+  TestProject(Engine::Graphics::VulkanSuite RELEASE_CONST     * vulkan)
     : Game("Test Project", vulkan) { }
 
   void Init() override {
