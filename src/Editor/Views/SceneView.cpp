@@ -10,7 +10,6 @@ namespace Editor {
     if (!node.entity.HasComponent<Display>())
       return;
 
-    // TODO: Align text with and without arrows
     if (!node.HasChildren()) {
       flags |= ImGuiTreeNodeFlags_Leaf;
     }

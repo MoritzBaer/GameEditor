@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.28)
 
 project(GAME_EDITOR)
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(CMAKE_CXX_STANDARD 23)
 
@@ -81,10 +80,5 @@ message("-- Build type for GameEditor: ${CMAKE_BUILD_TYPE}")
 # To keep assets in the same place as the binaries
 message("-- Delivering editor resources")
 
-if(CMAKE_BUILD_TYPE MATCHES Debug)
-    add_custom_command(TARGET EditorDemo POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/res ${CMAKE_BINARY_DIR}/Debug/res)
-    add_custom_command(TARGET Editor POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/res ${CMAKE_BINARY_DIR}/Debug/res)
-else()
-    add_custom_command(TARGET EditorDemo POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/res ${CMAKE_BINARY_DIR}/Release/res)
-    add_custom_command(TARGET Editor POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/res ${CMAKE_BINARY_DIR}/Release/res)
-endif()
+add_custom_command(TARGET EditorDemo POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/res ${CMAKE_BINARY_DIR}/res)
+add_custom_command(TARGET Editor POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/res ${CMAKE_BINARY_DIR}/res)

@@ -6,8 +6,6 @@
 #include "Engine/Window.h"
 #include "imgui.h"
 
-// TODO: Maybe shift to editor?
-
 namespace Engine::Graphics {
   struct ImGUIView;
 
