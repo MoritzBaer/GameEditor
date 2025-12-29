@@ -12,6 +12,7 @@
 #define S_PUBLISH_SLIDER_WITH_LABEL(object, label, min, max, step) SLIDER(min, max, step, S_PUBLISH_WITH_LABEL(object, label))
 #define S_PUBLISH_SLIDER(object, min, max, step) S_PUBLISH_SLIDER_WITH_LABEL(object, #object, min, max, step)
 #define S_COMPOSITE COMPOSITE
+#define S_PUBLISH_FUNCTION(func) PUBLISH_FUNCTION(func, #func)
 #define S_PUBLISH_NOTHING PUBLISH_NOTHING
 
 #define __APPEND_S(arg) CAT(S_, __PROTECT(arg))

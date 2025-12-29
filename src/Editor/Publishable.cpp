@@ -1,6 +1,5 @@
 #include "Publishable.h"
 
-#include "Debug/Logging.h"
 #include "Macros.h"
 #include "imgui.h"
 
@@ -138,6 +137,11 @@ namespace Editor {
           DrawPublication(P);
         }
         ImGui::TreePop();
+      }
+      break;
+    case Editor::Publication::Type::FUNCTION:
+      if (ImGui::Button(publication.label)) {
+        ((void(*)())publication.referencedPointer)();
       }
       break;
     case Publication::Type::NONE:

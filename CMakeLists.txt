@@ -24,7 +24,7 @@ file(GLOB_RECURSE EditorFiles
 add_definitions("-DUSING_IMGUI")
 
 if(BUILD_DEMO_APP AND NOT DEFINED USER_SCRIPTS_SOURCE_PATH)
-    message("-- BUILD_DEMO_APP defined, adding scripts source path definition")
+    message(STATUS "BUILD_DEMO_APP defined, adding scripts source path definition")
     set(USER_SCRIPTS_SOURCE_PATH "\"${PROJECT_SOURCE_DIR}/dependencies/GraphicsEngine/src/Demo/Scripts.h\"" CACHE STRING "Path to user scripts definition")
 endif()
 
@@ -47,14 +47,14 @@ string(LENGTH "${PROJECT_SOURCE_DIR}/src/" SOURCE_PATH_SIZE)
 add_compile_definitions(SOURCE_PATH_SIZE=${SOURCE_PATH_SIZE})
 
 if(DEFINED SCRIPT_PUBLICATION_PATH)
-    message("-- SCRIPT_PUBLICATION_PATH defined as ${SCRIPT_PUBLICATION_PATH}, adding definition")
+    message(STATUS "SCRIPT_PUBLICATION_PATH defined as ${SCRIPT_PUBLICATION_PATH}, adding definition")
     add_compile_definitions(SCRIPT_PUBLICATION_SOURCE=${SCRIPT_PUBLICATION_PATH})
 else()
     add_compile_definitions(SCRIPT_PUBLICATION_SOURCE="ScriptPublications.h")
 endif()
 
 if(DEFINED RESOURCE_PATH)
-    message("-- RESOURCE_PATH defined as ${RESOURCE_PATH}, adding definition")
+    message(STATUS "RESOURCE_PATH defined as ${RESOURCE_PATH}, adding definition")
     add_compile_definitions(RESOURCE_PATH="${RESOURCE_PATH}")
 else()
     add_compile_definitions(RESOURCE_PATH="${PROJECT_SOURCE_DIR}/res/")
@@ -75,10 +75,10 @@ target_link_libraries(EditorDemo PUBLIC Editor)
 # To store profiles
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/Release/profiles ${CMAKE_BINARY_DIR}/Debug/profiles)
 
-message("-- Build type for GameEditor: ${CMAKE_BUILD_TYPE}")
+message(STATUS "Build type for GameEditor: ${CMAKE_BUILD_TYPE}")
 
 # To keep assets in the same place as the binaries
-message("-- Delivering editor resources")
+message(STATUS "Delivering editor resources")
 
 add_custom_command(TARGET EditorDemo POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/res ${CMAKE_BINARY_DIR}/res)
 add_custom_command(TARGET Editor POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/res ${CMAKE_BINARY_DIR}/res)

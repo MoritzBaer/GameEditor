@@ -11,97 +11,102 @@
 #define PUBLISH_RANGE(object, min, max, step) PUBLISH_RANGE_WITH_LABEL(object, #object, min, max, step)
 #define SLIDER(min, max, step, publication)                                                                            \
   Editor::_Publication::SetStyle(RANGE(min, max, step, publication), Editor::Publication::Style::SLIDER)
-#define PUBLISH_SLIDER_WITH_LABEL(object, label, min, max, step) SLIDER(min, max, step, PUBLISH_WITH_LABEL(object, label))
+#define PUBLISH_SLIDER_WITH_LABEL(object, label, min, max, step)                                                       \
+  SLIDER(min, max, step, PUBLISH_WITH_LABEL(object, label))
 #define PUBLISH_SLIDER(object, min, max, step) PUBLISH_SLIDER_WITH_LABEL(object, #object, min, max, step)
+#define PUBLISH_FUNCTION(func, lbl)                                                                       \
+  Editor::Publication { .label = lbl, .type = Editor::Publication::Type::FUNCTION, .referencedPointer = &func }
 
 #define COMPOSITE(...)                                                                                                 \
   Editor::Publication {                                                                                                \
     .label = label, .type = Editor::Publication::Type::COMPOSITE, .children = { __VA_ARGS__ }                          \
   }
 
-#define PUBLISH_NOTHING Editor::Publication { .type = Editor::Publication::Type::NONE }
+#define PUBLISH_NOTHING                                                                                                \
+  Editor::Publication { .type = Editor::Publication::Type::NONE }
 
 namespace Editor {
-  struct Publication;
-  namespace _Publication {
+struct Publication;
+namespace _Publication {
 
-    template <typename T> struct Range {
-      T min = 0;
-      T max = 0;
-      float step = 1;
-    };
+template <typename T> struct Range {
+  T min = 0;
+  T max = 0;
+  float step = 1;
+};
 
-    template <typename T> Publication GetPublicationWithDeducedType(T & value, const char * label);
+template <typename T> Publication GetPublicationWithDeducedType(T &value, const char *label);
 
-  } // namespace _Publication
+} // namespace _Publication
 
-  struct Publication {
+struct Publication {
 
-    enum class Type {
-      INTEGER1,
-      INTEGER2,
-      INTEGER3,
-      INTEGER4,
-      FLOAT1,
-      FLOAT2,
-      FLOAT3,
-      FLOAT4,
-      TEXT,
-      COLOUR_PICKER,
-      TEXTURE_SELECT,
-      SHADER_SELECT,
-      MESH_SELECT,
-      PREFAB_SELECT,
-      MATERIAL_SELECT,
-      ENUM,
-      COMPOSITE,
-      NONE
-    };
-
-    enum class Style { DRAG, SLIDER, STEPPER, RADIO, COMBO, LIST };
-
-    enum Flags { RANGE = 1 };
-
-    const char * label;
-    Type type;
-    Style style;
-    int flags;
-    _Publication::Range<float> floatRange;
-    _Publication::Range<int> intRange;
-    std::vector<Publication> children;
-    void * referencedPointer;
+  enum class Type {
+    INTEGER1,
+    INTEGER2,
+    INTEGER3,
+    INTEGER4,
+    FLOAT1,
+    FLOAT2,
+    FLOAT3,
+    FLOAT4,
+    TEXT,
+    COLOUR_PICKER,
+    TEXTURE_SELECT,
+    SHADER_SELECT,
+    MESH_SELECT,
+    PREFAB_SELECT,
+    MATERIAL_SELECT,
+    ENUM,
+    COMPOSITE,
+    FUNCTION,
+    NONE
   };
 
-  template <typename T> struct Publishable {
-    static constexpr char const * typeLabel = "dummy";
-    inline static Publication Publish(T & object, const char * label = typeLabel) {
-      return { .type = Publication::Type::NONE };
-    }
-  };
+  enum class Style { DRAG, SLIDER, STEPPER, RADIO, COMBO, LIST };
 
-  void DrawPublication(Publication const & publication);
-  template <typename T> void DrawPublishable(T & publishable);
+  enum Flags { RANGE = 1 };
 
-  namespace _Publication {
+  const char *label;
+  Type type;
+  Style style;
+  int flags;
+  _Publication::Range<float> floatRange;
+  _Publication::Range<int> intRange;
+  std::vector<Publication> children;
+  void *referencedPointer;
+};
 
-    template <typename T> inline Publication AddRange(Publication const & publication, T min, T max, float step) {
-      Publication res = publication;
-      auto type = publication.type;
-      if (type < Publication::Type::FLOAT1) { // Type is integral
-        res.intRange = { (int)min, (int)max, step };
-      } else if (type < Publication::Type::TEXT) { // Type is float
-        res.floatRange = { (float)min, (float)max, step };
-      }
-      res.flags |= Publication::Flags::RANGE;
-      return res;
-    }
+template <typename T> struct Publishable {
+  static constexpr char const *typeLabel = "dummy";
+  inline static Publication Publish(T &object, const char *label = typeLabel) {
+    return {.type = Publication::Type::NONE};
+  }
+};
 
-    inline Publication SetStyle(Publication const & publication, Publication::Style style) {
-      Publication res = publication;
-      res.style = style;
-      return res;
-    }
+void DrawPublication(Publication const &publication);
+template <typename T> void DrawPublishable(T &publishable);
 
-  } // namespace _Publication
+namespace _Publication {
+
+template <typename T> inline Publication AddRange(Publication const &publication, T min, T max, float step) {
+  Publication res = publication;
+  auto type = publication.type;
+  if (type < Publication::Type::FLOAT1) { // Type is integral
+    res.intRange = {(int)min, (int)max, step};
+  } else if (type < Publication::Type::TEXT) { // Type is float
+    res.floatRange = {(float)min, (float)max, step};
+  }
+  res.flags |= Publication::Flags::RANGE;
+  return res;
+}
+
+inline Publication SetStyle(Publication const &publication, Publication::Style style) {
+  Publication res = publication;
+  res.style = style;
+  return res;
+}
+
+} // namespace _Publication
 
 } // namespace Editor
